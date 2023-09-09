@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Recuperar Contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+<body>
+
+  <div class="centrado">
+    <div class="wrapper">
+      <form [formGroup]="formularioRecuperacion" (ngSubmit)="cambiarContrasena()">
+        <h1 style="color:#cecbcb;">Recuperar Contraseña</h1>
+
+        <div class="input-box">
+          <input formControlName="nombreUsuario" type="text" placeholder="Nombre de Usuario o Correo">
+        </div>
+
+        <div class="input-box">
+          <input formControlName="nuevaContrasena" type="password" placeholder="Nueva Contraseña">
+        </div>
+          
+      </form>
+
+      <ion-button (click)="cambiarContrasena()" class="btn" type="Submit" color="#" >
+        Enviar Solicitud 
+      </ion-button>
+      <br>
+      <br>
+      <div class="ion-text-center ion-padding-top">
+        <p style="color:#ffffff;">
+          ¿Ya tienes una cuenta? 
+          <a [routerLink]="['/login']" style="color:#00ff40;">
+            Iniciar Sesión
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</body>

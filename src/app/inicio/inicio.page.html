@@ -11,7 +11,9 @@
   <div class="centrado">
     <div class="wrapper">
       
-      <h1 style="color:#cecbcb;">Bienvenido, user</h1>
+      <h1 style="color:#cecbcb;" *ngIf="usuario">
+        Bienvenido, {{usuario.nombre}}
+      </h1>
     </div>
   </div>
 </body>
