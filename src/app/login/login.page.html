@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>QR Scanner</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<body>
+  <div class="centrado">
+    <div class="wrapper">
+
+      <form [formGroup]="formularioLogin">
+        <h1 style="color:#cecbcb;">Login</h1>
+
+        <div class="input-box">
+          <input formControlName="nombre" type="text" id="usuario" placeholder="Username">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+
+        <div class="input-box">
+          <input formControlName="password" type="password" id="password" placeholder="Password">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </div>
+
+        <div>
+          <a href="#" style="color:#2efe62;">Olvidaste la contraseña?</a>
+        </div>
+        <br>
+      </form>
+
+      <ion-button (click)="ingresar()" class="btn" color="#">
+        Login
+      </ion-button>
+
+      <div>
+        <br>
+        <p style="color:#ffffff;">No tienes una cuenta?
+          <a [routerLink]="['/register']" style="color:#00ff40;">Register</a>
+        </p>
+      </div>
+
+
+    </div>
+  </div>
+</body>
+
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">

@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+          <ion-back-button style="color:#00ff40;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<body>
+  <div class="centrado">
+    <div class="wrapper">
+      
+      <form [formGroup]="formularioRegistro">
+        <h1 style="color:#cecbcb;">Register</h1>
+
+        <div class="input-box">
+          <input formControlName="nombre" type="text" id="nombre" placeholder="Nombre" required>
+          <ion-icon name="person-add-outline"></ion-icon>
+        </div>
+
+        <div class="input-box">
+          <input formControlName="apellido" type="text" id="apellido" placeholder="Apellido" required>
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+
+        <div class="input-box">
+          <input formControlName="password" type="password" id="password" placeholder="Contraseña" required>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </div>
+        <div class="input-box">
+          <input formControlName="confirmacionPassword" type="password" id="confirmacionPassword" placeholder="Repetir contraseña" required>
+          <ion-icon name="document-lock-outline"></ion-icon>
+        </div>
+
+        <div class="input-box">
+          <input formControlName="email" type="email" id="email" placeholder="ejemplo@gmail.com" required>
+          <ion-icon name="mail-outline"></ion-icon>
+        </div>
+
+        <ion-button (click)="guardar()" type="submit" class="btn" color="#">
+          Registrarse
+        </ion-button>
+
+      </form>
+    
+    </div>
+  </div>
+</body>
+
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
