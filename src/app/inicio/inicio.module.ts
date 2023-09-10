@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-
+import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx'; // Asegúrate de importar BarcodeScanner
 import { InicioPageRoutingModule } from './inicio-routing.module';
 
 import { InicioPage } from './inicio.page';
@@ -15,6 +15,9 @@ import { InicioPage } from './inicio.page';
     IonicModule,
     InicioPageRoutingModule
   ],
-  declarations: [InicioPage]
+  declarations: [InicioPage],
+  providers: [
+    BarcodeScanner, // Agrega BarcodeScanner a la lista de providers
+  ],
 })
 export class InicioPageModule {}

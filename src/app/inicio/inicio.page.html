@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-          <ion-back-button style="color:#00ff40;"></ion-back-button>
+      <ion-back-button style="color:#00ff40;"></ion-back-button>
     </ion-buttons>
     <ion-title>Inicio</ion-title>
   </ion-toolbar>
@@ -10,10 +10,24 @@
 <body>
   <div class="centrado">
     <div class="wrapper">
-      
       <h1 style="color:#cecbcb;" *ngIf="usuario">
         Bienvenido, {{usuario.nombre}}
       </h1>
+      <div class="input-box">
+        <ion-input type="text" placeholder="Digite sus datos" [(ngModel)]="datocodificado"></ion-input>
+      </div>
+      <!-- Botón para generar un código QR -->
+      <ion-button class="btn" color="#" (click)="CodificarTexto()">Generar Código QR</ion-button>
+      <br>
+      <br>
+      <!-- Botón para analizar un código QR -->
+      <ion-button class="btn" color="#" (click)="LeerCode()">Analizar Código QR</ion-button>
+    </div>
+    <div *ngIf="datoscaneado">
+      <p>
+        Contenido obtenido: <b>{{ datoscaneado.text }}</b>
+      </p>
     </div>
   </div>
 </body>
+  
