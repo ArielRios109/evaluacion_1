@@ -8,10 +8,10 @@
   <div class="centrado">
     <div class="wrapper">
       <form [formGroup]="formularioRecuperacion" (ngSubmit)="cambiarContrasena()">
-        <h1 style="color:#cecbcb;">Recuperar Contraseña</h1>
+        <h1 style="color:#cecbcb;">Restablecer Contraseña</h1>
 
         <div class="input-box">
-          <input formControlName="nombreUsuario" type="text" placeholder="Nombre de Usuario o Correo">
+          <input formControlName="nombreUsuario" type="text" placeholder="Nombre de Usuario">
         </div>
 
         <div class="input-box">
@@ -21,7 +21,7 @@
       </form>
 
       <ion-button (click)="cambiarContrasena()" class="btn" type="Submit" color="#" >
-        Enviar Solicitud 
+        RECUPERAR 
       </ion-button>
       <br>
       <br>
