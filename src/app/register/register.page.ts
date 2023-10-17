@@ -16,7 +16,6 @@ export class RegisterPage implements OnInit {
       'apellido': new FormControl('', Validators.required),
       'password': new FormControl('', Validators.required),
       'confirmacionPassword': new FormControl('', Validators.required),
-      'email': new FormControl('', Validators.required)
     });
   }
 

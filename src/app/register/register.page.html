@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-          <ion-back-button style="color:#00ff40;"></ion-back-button>
+      <ion-back-button style="color:#00ff40;"></ion-back-button>
     </ion-buttons>
     <ion-title>Register</ion-title>
   </ion-toolbar>
@@ -10,7 +10,7 @@
 <body>
   <div class="centrado">
     <div class="wrapper">
-      
+
       <form [formGroup]="formularioRegistro">
         <h1 style="color:#cecbcb;">Register</h1>
 
@@ -25,9 +25,25 @@
         </div>
 
         <div class="input-box">
+          <input formControlName="rut" type="text" id="rut" placeholder="RUT" required>
+          <!-- Agrega un ícono apropiado para el campo RUT -->
+        </div>
+
+        <div class="input-box">
+          <input formControlName="region" type="text" id="region" placeholder="Región" required>
+          <!-- Agrega un ícono apropiado para el campo Región -->
+        </div>
+
+        <div class="input-box">
+          <input formControlName="comuna" type="text" id="comuna" placeholder="Comuna" required>
+          <!-- Agrega un ícono apropiado para el campo Comuna -->
+        </div>
+
+        <div class="input-box">
           <input formControlName="password" type="password" id="password" placeholder="Contraseña" required>
           <ion-icon name="lock-closed-outline"></ion-icon>
         </div>
+
         <div class="input-box">
           <input formControlName="confirmacionPassword" type="password" id="confirmacionPassword" placeholder="Repetir contraseña" required>
           <ion-icon name="document-lock-outline"></ion-icon>
@@ -38,14 +54,4 @@
           <ion-icon name="mail-outline"></ion-icon>
         </div>
 
-        <ion-button (click)="guardar()" type="submit" class="btn" color="#">
-          Registrarse
-        </ion-button>
-
-      </form>
-    
-    </div>
-  </div>
-</body>
-
-<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+        <ion-button (

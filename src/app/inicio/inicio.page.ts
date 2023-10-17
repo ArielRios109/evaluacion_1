@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner, BarcodeScanResult } from '@awesome-cordova-plugins/barcode-scanner/ngx';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { BrowserQRCodeReader } from '@zxing/library';
 
 // Define el tipo Usuario con la estructura de datos de usuario
 interface Usuario {
@@ -13,14 +13,12 @@ interface Usuario {
   styleUrls: ['inicio.page.scss'],
 })
 export class InicioPage implements OnInit {
-
   usuario: Usuario | undefined;
-  codigoQRGenerado: string | undefined;
-
-  datocodificado: any;
   datoscaneado: { text: string } | undefined;
 
-  constructor(private barcodeScanner: BarcodeScanner) {}
+  zxing = new BrowserQRCodeReader();
+
+  constructor() {}
 
   ngOnInit() {
     this.verificarInicioSesion();
@@ -46,22 +44,17 @@ export class InicioPage implements OnInit {
   }
 
   LeerCode() {
-    this.barcodeScanner.scan().then(barcodeData => {
-      this.datoscaneado = barcodeData;
-    })
-    .catch(err => {
-      console.log("Error", err);
-    });
-  }
-
-  CodificarTexto() {
-    this.barcodeScanner.encode(this.barcodeScanner.Encode.TEXT_TYPE, this.datocodificado).then(
-      encodedData => {
-        this.datocodificado = encodedData;
-      },
-      err => {
-        console.log("Un error ha ocurrido: " + err);
-      }
-    );
+    const codeReader = new BrowserQRCodeReader();
+    
+    codeReader
+      .decodeFromInputVideoDevice(undefined, 'video')
+      .then(result => {
+        this.datoscaneado = { text: result.getText() };
+        codeReader.reset();
+      })
+      .catch(err => {
+        console.error('Error al escanear QR', err);
+        codeReader.reset();
+      });
   }
 }

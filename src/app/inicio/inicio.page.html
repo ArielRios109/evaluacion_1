@@ -13,12 +13,6 @@
       <h1 style="color:#cecbcb;" *ngIf="usuario">
         Bienvenido {{usuario.nombre}}
       </h1>
-      <div class="input-box">
-        <ion-input type="text" placeholder="Digite sus datos" [(ngModel)]="datocodificado"></ion-input>
-      </div>
-      <!-- Botón para generar un código QR -->
-      <ion-button class="btn" color="#" (click)="CodificarTexto()">Generar Código QR</ion-button>
-      <br>
       <br>
       <!-- Botón para analizar un código QR -->
       <ion-button class="btn" color="#" (click)="LeerCode()">Analizar Código QR</ion-button>
