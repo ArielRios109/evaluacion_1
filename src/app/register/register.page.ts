@@ -14,8 +14,10 @@ export class RegisterPage implements OnInit {
     this.formularioRegistro = this.fb.group({
       'nombre': new FormControl('', Validators.required),
       'apellido': new FormControl('', Validators.required),
+      'rut': new FormControl('', Validators.required),
+      'region': new FormControl('', Validators.required),
+      'comuna': new FormControl('', Validators.required),
       'password': new FormControl('', Validators.required),
-      'confirmacionPassword': new FormControl('', Validators.required),
     });
   }
 
@@ -45,8 +47,10 @@ export class RegisterPage implements OnInit {
     const usuario = {
       nombre: f.nombre,
       apellido: f.apellido,
+      rut: f.rut,
+      region: f.region,
+      comuna: f.comuna,
       password: f.password,
-      email: f.email
     };
 
     // Agregar el nuevo usuario a la lista

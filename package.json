@@ -31,6 +31,8 @@
     "@ionic/angular": "^7.0.0",
     "@zxing/library": "^0.20.0",
     "ionicons": "^7.0.0",
+    "jsqr": "^1.4.0",
+    "ngx-qrcode": "^0.1.0-rc.1",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { BrowserQRCodeReader } from '@zxing/library';
+import { Component, OnInit } from '@angular/core';
+import jsQR, { QRCode } from 'jsqr';
 
-// Define el tipo Usuario con la estructura de datos de usuario
 interface Usuario {
   nombre: string;
   apellido: string;
@@ -14,10 +13,8 @@ interface Usuario {
 })
 export class InicioPage implements OnInit {
   usuario: Usuario | undefined;
-  datoscaneado: { text: string } | undefined;
-
-  zxing = new BrowserQRCodeReader();
-
+  qrContent: string | undefined;
+  
   constructor() {}
 
   ngOnInit() {
@@ -43,18 +40,88 @@ export class InicioPage implements OnInit {
     }
   }
 
-  LeerCode() {
-    const codeReader = new BrowserQRCodeReader();
-    
-    codeReader
-      .decodeFromInputVideoDevice(undefined, 'video')
-      .then(result => {
-        this.datoscaneado = { text: result.getText() };
-        codeReader.reset();
-      })
-      .catch(err => {
-        console.error('Error al escanear QR', err);
-        codeReader.reset();
+  async LeerCode() {
+    try {
+      const constraints = { video: { facingMode: 'environment' } };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+      const video = document.createElement('video');
+      document.body.appendChild(video);
+      video.srcObject = stream;
+      await video.play();
+
+      video.addEventListener('canplay', async () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const context = canvas.getContext('2d');
+
+        if (context) {
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+          // Decodificar código QR desde la imagen con jsQR
+          const decodedQR: QRCode | null = jsQR(imageData.data, imageData.width, imageData.height);
+
+          if (decodedQR) {
+            this.qrContent = decodedQR.data;
+          } else {
+            console.error('No se pudo decodificar ningún código QR en la imagen.');
+          }
+
+          video.srcObject = null;
+          stream.getTracks().forEach((track) => track.stop());
+          document.body.removeChild(video);
+        } else {
+          console.error('Contexto del lienzo no encontrado.');
+        }
       });
+    } catch (err) {
+      console.error('Error al escanear QR', err);
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    const files = fileInput.files;
+
+    if (files && files.length > 0) {
+      const file = files[0];
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target.result;
+
+        if (typeof result === 'string') {
+          const img = new Image();
+          img.src = result;
+
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const context = canvas.getContext('2d');
+
+            if (context) {
+              context.drawImage(img, 0, 0, canvas.width, canvas.height);
+              const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+              // Decodificar código QR desde la imagen con jsQR
+              const decodedQR: QRCode | null = jsQR(imageData.data, imageData.width, imageData.height);
+
+              if (decodedQR) {
+                this.qrContent = decodedQR.data;
+              } else {
+                console.error('No se pudo decodificar ningún código QR en la imagen.');
+              }
+            }
+          };
+        } else {
+          console.error('El resultado no es una cadena.');
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
   }
 }

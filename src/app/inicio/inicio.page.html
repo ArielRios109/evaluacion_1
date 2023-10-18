@@ -14,14 +14,15 @@
         Bienvenido {{usuario.nombre}}
       </h1>
       <br>
-      <!-- Botón para analizar un código QR -->
       <ion-button class="btn" color="#" (click)="LeerCode()">Analizar Código QR</ion-button>
-    </div>
-    <div *ngIf="datoscaneado">
-      <p>
-        Contenido obtenido: <b>{{ datoscaneado.text }}</b>
-      </p>
+      <input type="file" accept="image/jpeg" (change)="onFileSelected($event)" #fileInput>
+
+      <!-- Mostrar el contenido del código QR escaneado -->
+      <div *ngIf="qrContent">
+        <p>
+          Contenido del código QR: <b>{{ qrContent }}</b>
+        </p>
+      </div>
     </div>
   </div>
 </body>
-  
