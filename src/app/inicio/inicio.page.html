@@ -11,16 +11,37 @@
   <div class="centrado">
     <div class="wrapper">
       <h1 style="color:#cecbcb;" *ngIf="usuario">
-        Bienvenido {{usuario.nombre}}
+        Bienvenido, {{usuario.nombre}}
       </h1>
-      <br>
-      <ion-button class="btn" color="#" (click)="LeerCode()">Analizar Código QR</ion-button>
-      <input type="file" accept="image/jpeg" (change)="onFileSelected($event)" #fileInput>
 
+      <br>
+      <ion-button class="btn" color="#" (click)="openCamera()">Abrir Cámara</ion-button>
+      <br><br>
+
+    <div id="video-container">
+      <video id="video" style="width: 100%; max-width: 400px;" autoplay muted playsinline></video>
+    </div>
+
+      <br>
+
+      <div class="custom-file-input">
+        <button class="custom-button" (click)="fileInput.click()">Seleccionar archivo</button>
+        <input
+          #fileInput
+          type="file"
+          accept="image/jpeg, image/png"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+      
+      
       <!-- Mostrar el contenido del código QR escaneado -->
       <div *ngIf="qrContent">
         <p>
-          Contenido del código QR: <b>{{ qrContent }}</b>
+          <br>
+          <b>Contenido del código QR:</b> 
+          <br><br>
+          {{ qrContent }}
         </p>
       </div>
     </div>

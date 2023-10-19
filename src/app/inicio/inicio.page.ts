@@ -14,7 +14,7 @@ interface Usuario {
 export class InicioPage implements OnInit {
   usuario: Usuario | undefined;
   qrContent: string | undefined;
-  
+
   constructor() {}
 
   ngOnInit() {
@@ -27,7 +27,7 @@ export class InicioPage implements OnInit {
     if (ingresado === 'true') {
       const usuariosData = localStorage.getItem('usuarios');
 
-      if (usuariosData !== null) {
+      if (usuariosData) {
         const usuarios: Usuario[] = JSON.parse(usuariosData);
         const nombreUsuario = localStorage.getItem('nombreUsuario');
 
@@ -43,11 +43,11 @@ export class InicioPage implements OnInit {
   async LeerCode() {
     try {
       const constraints = { video: { facingMode: 'environment' } };
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
 
       const video = document.createElement('video');
       document.body.appendChild(video);
-      video.srcObject = stream;
+      video.srcObject = mediaStream;
       await video.play();
 
       video.addEventListener('canplay', async () => {
@@ -60,7 +60,6 @@ export class InicioPage implements OnInit {
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
           const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 
-          // Decodificar código QR desde la imagen con jsQR
           const decodedQR: QRCode | null = jsQR(imageData.data, imageData.width, imageData.height);
 
           if (decodedQR) {
@@ -70,7 +69,12 @@ export class InicioPage implements OnInit {
           }
 
           video.srcObject = null;
-          stream.getTracks().forEach((track) => track.stop());
+
+          if (mediaStream) {
+            const tracks = mediaStream.getTracks();
+            tracks.forEach((track) => track.stop());
+          }
+
           document.body.removeChild(video);
         } else {
           console.error('Contexto del lienzo no encontrado.');
@@ -81,47 +85,81 @@ export class InicioPage implements OnInit {
     }
   }
 
-  onFileSelected(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
-    const files = fileInput.files;
+  onFileSelected(event: any) {
+    const inputElement = event.target as any;
 
-    if (files && files.length > 0) {
-      const file = files[0];
+    if (inputElement && inputElement.files && inputElement.files.length > 0) {
+      const selectedFile = inputElement.files[0];
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target.result;
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const result = e.target?.result as string;
 
-        if (typeof result === 'string') {
-          const img = new Image();
-          img.src = result;
+          if (result) {
+            const img = new Image();
+            img.src = result;
 
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const context = canvas.getContext('2d');
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              canvas.width = img.width;
+              canvas.height = img.height;
+              const context = canvas.getContext('2d');
 
-            if (context) {
-              context.drawImage(img, 0, 0, canvas.width, canvas.height);
-              const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+              if (context) {
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 
-              // Decodificar código QR desde la imagen con jsQR
-              const decodedQR: QRCode | null = jsQR(imageData.data, imageData.width, imageData.height);
+                const decodedQR: QRCode | null = jsQR(imageData.data, imageData.width, imageData.height);
 
-              if (decodedQR) {
-                this.qrContent = decodedQR.data;
-              } else {
-                console.error('No se pudo decodificar ningún código QR en la imagen.');
+                if (decodedQR) {
+                  this.qrContent = decodedQR.data;
+                } else {
+                  console.error('No se pudo decodificar ningún código QR en la imagen.');
+                }
               }
-            }
-          };
-        } else {
-          console.error('El resultado no es una cadena.');
-        }
-      };
+            };
+          } else {
+            console.error('El resultado no es una cadena.');
+          }
+        };
 
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(selectedFile);
+      }
     }
   }
+
+  openCamera() {
+    const constraints = { video: { facingMode: 'environment' } };
+  
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+      const video = document.getElementById('video') as HTMLVideoElement;
+      if (video) {
+        video.srcObject = stream;
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        if (context) {
+          video.onplay = () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const scanQR = () => {
+              context.drawImage(video, 0, 0, canvas.width, canvas.height);
+              const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+              const decodedQR = jsQR(imageData.data, imageData.width, imageData.height);
+              if (decodedQR) {
+                this.qrContent = decodedQR.data;
+              }
+              requestAnimationFrame(scanQR);
+            };
+            requestAnimationFrame(scanQR);
+          };
+        }
+      }
+    }).catch((error) => {
+      console.error('Error al acceder a la cámara:', error);
+      alert('No se pudo acceder a la cámara.');
+    });
+  }
+  
+  
 }

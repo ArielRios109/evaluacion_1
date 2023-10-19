@@ -75,7 +75,7 @@ body {
 
 .wrapper .btn {
     width: 70%;
-    height: 45px;
+    height: 55px;
     border: 1px solid;
     outline: none;
     border-radius:  40px;
@@ -86,3 +86,34 @@ body {
     font-weight: 600;
     background-color: #00510b;
 }
+
+.custom-file-input {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  
+    .custom-button {
+      background-color: #00510b;
+      color: #d0caca;
+      border: 1px solid #00510b;
+      border-radius: 40px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      border: 1px solid;
+
+    }
+  
+    input[type="file"] {
+      position: absolute;
+      font-size: 100px;
+      right: 0;
+      top: 0;
+      opacity: 0;
+    }
+  }
+  
